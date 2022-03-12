@@ -5,7 +5,8 @@ This case study is a project for my online portfolio as part of the Google Data 
 ***
 <img src="Images/yoga_girl_byDaneWetton.jpg">
 <p align="center">
-Photo by [Dane Wetton](https://unsplash.com/@danewett?utm_source=medium&utm_medium=referral). 
+
+Photo by [Dane Wetton](https://unsplash.com/@danewett?utm_source=medium&utm_medium=referral) 
 </p>
 
 ***
