@@ -34,10 +34,13 @@ An analysis of smart device usage could identify trends which could be investiga
 * **Bellabeat membership:** Bellabeat also offers a subscription-based membership program for users. Membership gives users 24/7 access to fully personalized guidance on nutrition, activity, sleep, health and beauty, and mindfulness based on their lifestyle and goals.
 
 ### *The Data*
-1. [FitBit Fitness Tracker Data](https://www.kaggle.com/arashnic/fitbit)
-Personal fitness tracker data collected from 30 consenting fitbit users in 2016. It includes minute level output for exercise, heart rate and 
-**Source:** External 3^rd^ party data.
-**Type:** Structured continuous & discrete mostly nominal quantitative data.
+1. [FitBit Fitness Tracker Data](https://www.kaggle.com/arashnic/fitbit).  
+
+Personal fitness tracker data collected from 30 consenting fitbit users in 2016. It includes minute level output for exercise, heart rate and daily activity.  
+
+* **Source:** External 3^rd^ party data.
+* **Type:** Structured continuous & discrete mostly nominal quantitative data.
+
 ***
 # Problems
 * The Fitbit data used was collected from only 30 users. This is a very small sample size when considering that there are around 30 million users. Our sample size therefore represents roughly 1 millionth or 0.0001% of the population.
