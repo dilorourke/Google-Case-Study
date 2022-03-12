@@ -1,22 +1,51 @@
 ---
-title: "Google Capstone Project"
+title: "BellaBeat Smart Device Data Analysis (Google Capstone Project)"
 author: "Dillon O'Rourke"
 date: '2022-03-12'
-output: html_document
+output: pdf_document
 ---
 
-## Introduction
-Make sure to state the purpose of the case study. This includes what the scenario is and an explanation on how it relates to a real-world obstacle. Feel free to note any assumptions or theories you might have depending on the information provided. 
+***
+## **Disclaimer**
+This case study is a project for my online portfolio as part of the Google Data Analytics professional certificate and is entirely fictional.
 
-## Problems 
+***
+# Introduction
+I am a junior data analyst working on the marketing analyst team at [Bellabeat](https://bellabeat.com/), a high-tech manufacturer of health-focused products for women. Bellabeat is a successful small company, but they have the potential to become a larger player in the global smart device market. Urška Sršen, cofounder and Chief Creative Officer of Bellabeat, believes that analyzing smart device fitness data could help unlock new growth opportunities for the company.
+
+### *The purpose of this project;*
+Is to use data to gain insights into customer usage of the company’s products and identify new growth opportunities for the company.  
+An analysis of smart device usage could identify new and unseen trends which could be investigated further to explore if they can be applied to Bellabeat customers. Applying these trends and behaviours to the company’s marketing strategy could improve future sales revenue.
+
+### *The key business tasks;*
+* Analyse smart device data and gain insight into how consumers are using their devices.
+  + What are some trends in smart device usage?
+  + How could these trends apply to Bellabeat customers?
+  + How could these trends help influence Bellabeat marketing strategy?
+* Create a presentation of my analysis and high-level recommendations for how these trends can inform Bellabeat marketing strategy to the executive team.
+
+### *Assumptions or theories*
+
+### *Prodcuts*
+* **Bellabeat app:** The Bellabeat app provides users with health data related to their activity, sleep, stress,menstrual cycle, and mindfulness habits. This data can help users better understand their current habits and make healthy decisions. The Bellabeat app connects to their line of smart wellness products.
+* **Leaf:** Bellabeat’s classic wellness tracker can be worn as a bracelet, necklace, or clip. The Leaf tracker connects to the Bellabeat app to track activity, sleep, and stress.
+* **Time:** This wellness watch combines the timeless look of a classic timepiece with smart technology to track user activity, sleep, and stress. The Time watch connects to the Bellabeat app to provide you with insights into your daily wellness.
+* **Spring:** This is a water bottle that tracks daily water intake using smart technology to ensure that you are appropriately hydrated throughout the day. The Spring bottle connects to the Bellabeat app to track your hydration levels.
+* **Bellabeat membership:** Bellabeat also offers a subscription-based membership program for users. Membership gives users 24/7 access to fully personalized guidance on nutrition, activity, sleep, health and beauty, and mindfulness based on their lifestyle and goals.
+
+***
+# Problems 
 You need to identify what the major problems are, explain how you have analyzed the problem, and present any facts you are using to support your findings. 
 
-## Solutions
+***
+# Solutions
 Outline a solution that would alleviate the problem and have a few alternatives in mind to show that you have given the case study considerable thought. Don’t forget to include pros and cons for each solution. 
 
-## Conclusion
+***
+# Conclusion
 End your presentation by summarizing key takeaways of all of the problem-solving you conducted, highlighting what you have learned from this. 
 
-## Next steps
+***
+# Next steps
 Choose the best solution and propose recommendations for the client or business to take. Explain why you made your choice and how this will a ect the scenario in a positive way. Be specific and include what needs to be done, who should enforce it, and when.
 
