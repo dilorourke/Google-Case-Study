@@ -4,8 +4,9 @@ Google Data Analytics Capstone Project
 This case study is a project for my online portfolio as part of the Google Data Analytics professional certificate and is entirely fictional.
 ***
 <img src="Images/yoga_girl_byDaneWetton.jpg">
-
+<p align="center">
 Photo by [Dane Wetton](https://unsplash.com/@danewett?utm_source=medium&utm_medium=referral)
+</p>
 
 ***
 ## Introduction
