@@ -14,8 +14,8 @@ This case study is a project for my online portfolio as part of the Google Data 
 I am a junior data analyst working on the marketing analyst team at [Bellabeat](https://bellabeat.com/), a high-tech manufacturer of health-focused products for women. Bellabeat is a successful small company, but they have the potential to become a larger player in the global smart device market. Urška Sršen, cofounder and Chief Creative Officer of Bellabeat, believes that analyzing smart device fitness data could help unlock new growth opportunities for the company.
 
 ### *The purpose of this project;*
-Is to use data to gain insights into customer usage of the company’s products and identify new growth opportunities for the company.  
-An analysis of smart device usage could identify new and unseen trends which could be investigated further to explore if they can be applied to Bellabeat customers. Applying these trends and behaviours to the company’s marketing strategy could improve future sales revenue.
+Is to use data to gain insights into customer usage of the non-company products and identify new growth opportunities for the company.  
+An analysis of smart device usage could identify trends which could be investigated further to explore if they can be applied to Bellabeat customers. Applying these trends and behaviors to the company’s marketing strategy could improve future sales revenue.
 
 ### *The key business tasks;*
 * Analyse smart device data and gain insight into how consumers are using their devices.
@@ -34,10 +34,16 @@ An analysis of smart device usage could identify new and unseen trends which cou
 * **Bellabeat membership:** Bellabeat also offers a subscription-based membership program for users. Membership gives users 24/7 access to fully personalized guidance on nutrition, activity, sleep, health and beauty, and mindfulness based on their lifestyle and goals.
 
 ### *The Data*
-
-
+1. [FitBit Fitness Tracker Data](https://www.kaggle.com/arashnic/fitbit)
+Personal fitness tracker data collected from 30 consenting fitbit users in 2016. It includes minute level output for exercise, heart rate and 
+**Source:** External 3^rd^ party data.
+**Type:** Structured continuous & discrete mostly nominal quantitative data.
 ***
-# Problems 
+# Problems
+* The Fitbit data used was collected from only 30 users. This is a very small sample size when considering that there are around 30 million users. Our sample size therefore represents roughly 1 millionth or 0.0001% of the population.
+* In addition to the above, the data was collected in 2016 so it is outdated. Were this study carried out a year ago during a pandemic and lockdowns, the data might even be misleading as people's exercise and eating habits are likely not the same during a pandemic.
+
+
 You need to identify what the major problems are, explain how you have analyzed the problem, and present any facts you are using to support your findings. 
 
 ***
