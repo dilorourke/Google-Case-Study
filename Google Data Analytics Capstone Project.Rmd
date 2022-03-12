@@ -2,7 +2,7 @@
 title: "BellaBeat Smart Device Data Analysis (Google Capstone Project)"
 author: "Dillon O'Rourke"
 date: '2022-03-12'
-output: pdf_document
+output: html_document
 ---
 
 ***
@@ -33,6 +33,9 @@ An analysis of smart device usage could identify new and unseen trends which cou
 * **Spring:** This is a water bottle that tracks daily water intake using smart technology to ensure that you are appropriately hydrated throughout the day. The Spring bottle connects to the Bellabeat app to track your hydration levels.
 * **Bellabeat membership:** Bellabeat also offers a subscription-based membership program for users. Membership gives users 24/7 access to fully personalized guidance on nutrition, activity, sleep, health and beauty, and mindfulness based on their lifestyle and goals.
 
+### *The Data*
+
+
 ***
 # Problems 
 You need to identify what the major problems are, explain how you have analyzed the problem, and present any facts you are using to support your findings. 
@@ -48,4 +51,8 @@ End your presentation by summarizing key takeaways of all of the problem-solving
 ***
 # Next steps
 Choose the best solution and propose recommendations for the client or business to take. Explain why you made your choice and how this will a ect the scenario in a positive way. Be specific and include what needs to be done, who should enforce it, and when.
+
+***
+# References
+[1] [FitBit Fitness Tracker Data](https://www.kaggle.com/arashnic/fitbit), Furberg, Robert; Brinton, Julia; Keating, Michael ; Ortiz, Alexa https://zenodo.org/record/53894#.YMoUpnVKiP9
 
