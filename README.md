@@ -23,6 +23,16 @@ An analysis of smart device usage could identify trends which could be investiga
   + How could these trends help influence Bellabeat marketing strategy?
 * Create a presentation of my analysis and high-level recommendations for how these trends can inform Bellabeat marketing strategy to the executive team.
 
+## Analtical Method
+1. The data was downloaded and orgranised into a folder for storage.
+2. The data was loaded into python and checked for problems.
+
+## Repository Breakdown
+* A full detailed report of the project was kept using jupyter notebook. A PDF, HTML and raw notebook file can be found in the main folder.
+* All of the raw Data is contained in the Data folder in cvs files.
+* The python file used to run the analysis is in the main folder.
+* A personal journal was kept througout the project detail my thought process and decisions made etc.
 
 ## References
 [1] [FitBit Fitness Tracker Data](https://www.kaggle.com/arashnic/fitbit), Furberg, Robert; Brinton, Julia; Keating, Michael ; Ortiz, Alexa https://zenodo.org/record/53894#.YMoUpnVKiP9
+

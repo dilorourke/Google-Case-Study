@@ -38,7 +38,6 @@ daily_actchk = dailyActivity.groupby(['Id']).agg(['nunique'])
 
 dates = list(daily_actchk.iloc[:, 0])
 IDs = list(pd.unique(dailyActivity['Id']))
-print(int(np.around(np.average(dates), 0)))
 
 IDss = list()
 for i in IDs:
@@ -52,3 +51,5 @@ plt.xlabel("Days of Data")
 plt.ylabel("User ID")
 plt.title("Number of days that each user logged data")
 plt.show()
+
+print('Average number of days of data: ', int(np.around(np.average(dates), 0)))
