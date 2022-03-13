@@ -41,18 +41,6 @@ Personal fitness tracker data collected from 30 consenting fitbit users in 2016.
 * **Source:** External 3^rd^ party data.
 * **Type:** Structured continuous & discrete mostly nominal quantitative data.
 
-```{r}
-library(reticulate)
-conda_list()
-```
-
-
-```{python}
-print('Importing Packages')
-conda_list()
-```
-
-
 ***
 # Problems
 * The Fitbit data used was collected from only 30 users. This is a very small sample size when considering that there are around 30 million users. Our sample size therefore represents roughly 1 millionth or 0.0001% of the population.
