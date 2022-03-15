@@ -1,0 +1,81 @@
+---
+title: "GoogleCapstoneMarkdown"
+author: "Dillon O'Rourke"
+date: '2022-03-15'
+output: html_document
+---
+
+***
+## **Disclaimer**
+This case study is a project for my online portfolio as part of the Google Data Analytics professional certificate and is entirely fictional.
+
+***
+# Introduction
+I am a junior data analyst working on the marketing analyst team at [Bellabeat](https://bellabeat.com/), a high-tech manufacturer of health-focused products for women. Bellabeat is a successful small company, but they have the potential to become a larger player in the global smart device market. Urška Sršen, cofounder and Chief Creative Officer of Bellabeat, believes that analyzing smart device fitness data could help unlock new growth opportunities for the company.
+
+### *The purpose of this project;*
+Is to use data to gain insights into customer usage of the non-company products and identify new growth opportunities for the company.  
+An analysis of smart device usage could identify trends which could be investigated further to explore if they can be applied to Bellabeat customers. Applying these trends and behaviors to the company’s marketing strategy could improve future sales revenue.
+
+### *The key business tasks;*
+* Analyse smart device data and gain insight into how consumers are using their devices.
+  + What are some trends in smart device usage?
+  + How could these trends apply to Bellabeat customers?
+  + How could these trends help influence Bellabeat marketing strategy?
+* Create a presentation of my analysis and high-level recommendations for how these trends can inform Bellabeat marketing strategy to the executive team.
+
+### *Assumptions or theories*
+
+### *Prodcuts*
+* **Bellabeat app:** The Bellabeat app provides users with health data related to their activity, sleep, stress,menstrual cycle, and mindfulness habits. This data can help users better understand their current habits and make healthy decisions. The Bellabeat app connects to their line of smart wellness products.
+* **Leaf:** Bellabeat’s classic wellness tracker can be worn as a bracelet, necklace, or clip. The Leaf tracker connects to the Bellabeat app to track activity, sleep, and stress.
+* **Time:** This wellness watch combines the timeless look of a classic timepiece with smart technology to track user activity, sleep, and stress. The Time watch connects to the Bellabeat app to provide you with insights into your daily wellness.
+* **Spring:** This is a water bottle that tracks daily water intake using smart technology to ensure that you are appropriately hydrated throughout the day. The Spring bottle connects to the Bellabeat app to track your hydration levels.
+* **Bellabeat membership:** Bellabeat also offers a subscription-based membership program for users. Membership gives users 24/7 access to fully personalized guidance on nutrition, activity, sleep, health and beauty, and mindfulness based on their lifestyle and goals.
+
+### *The Data*
+1. [FitBit Fitness Tracker Data](https://www.kaggle.com/arashnic/fitbit).  
+
+Personal fitness tracker data collected from 30 consenting fitbit users in 2016. It includes minute level output for exercise, heart rate and daily activity.  
+
+* **Source:** External 3<sup>rd</sup> party data.
+* **Type:** Structured continuous & discrete mostly nominal quantitative data.
+* **Structure:** Time-series data for each individual user in several tables. Data ranges from daily to minute timestamps. Heartrate, calories, steps, sleep and weight information are provided by the data.
+
+The *dailyActivity* table will be analysed first as it will provide the most high level veiw look for trends in daily data and then hourly or minute data can be delved into to provide a higher resolution picture into a trend.
+
+* The data runs from the 12<sup>th</sup> of March to the 12<sup>th</sup> of April 2016. Therefore there should be 32 days of data to work with.
+
+```{r, results='hide',fig.keep='all'}
+library(lubridate)
+library(tidyverse)
+library(ggplot2)
+```
+
+
+Importing the data
+
+```{r}
+daily_activity <- read.csv('C:/Users/Dillon/Documents/Coding Learning/Google Data Analytics Course/Google Data Analytics Capstone Complete a Case Study/Data/Fitabase Data 3.12.16-4.11.16/dailyActivity_merged.csv')
+
+sleepday <- read.csv('C:/Users/Dillon/Documents/Coding Learning/Google Data Analytics Course/Google Data Analytics Capstone Complete a Case Study/Data/Fitabase Data 3.12.16-4.11.16/SleepDay_merged.csv')
+```
+
+Taking a look at the data;
+```{r}
+tbl_day_act <- as_tibble(daily_activity)
+tbl_day_act
+```
+
+The format of column "ActivityDate" needs to be changed to a date format. Same with the sleep table
+```{r}
+tbl_day_act$ActivityDate <- mdy(tbl_day_act$ActivityDate)
+```
+
+
+```{r}
+tbl_sleep <- as_tibble(sleepday)
+tbl_sleep$ActivityDate<-gsub(" AM","",as.character(tbl_sleep$ActivityDate))
+tbl_sleep$ActivityDate <- mdy:hms(tbl_sleep$ActivityDate)
+```
+

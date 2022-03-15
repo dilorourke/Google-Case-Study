@@ -7,6 +7,8 @@ This case study is a project for my online portfolio. It is an optional part of 
 
 Photo by [Dane Wetton](https://unsplash.com/@danewett?utm_source=medium&utm_medium=referral) 
 
+## Keywords
+Data Analytics | Python | Jupyter Notebook | Numpy | Pandas | Matplotlib |
 
 ***
 ## Introduction
