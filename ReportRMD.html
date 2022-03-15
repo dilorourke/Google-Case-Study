@@ -515,41 +515,27 @@ tbl_day_act</code></pre>
 ## #   SedentaryActiveDistance &lt;dbl&gt;, VeryActiveMinutes &lt;int&gt;,
 ## #   FairlyActiveMinutes &lt;int&gt;, LightlyActiveMinutes &lt;int&gt;,
 ## #   SedentaryMinutes &lt;int&gt;, Calories &lt;int&gt;</code></pre>
+<p>The format of column “ActivityDate” needs to be changed to a date
+format. Same with the sleep table</p>
 <pre class="r"><code>tbl_day_act$ActivityDate &lt;- mdy(tbl_day_act$ActivityDate)</code></pre>
-<pre class="r"><code>tbl_day_act</code></pre>
-<pre><code>## # A tibble: 940 x 15
-##        Id ActivityDate TotalSteps TotalDistance TrackerDistance LoggedActivitie~
-##     &lt;dbl&gt; &lt;date&gt;            &lt;int&gt;         &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
-##  1 1.50e9 2016-04-12        13162          8.5             8.5                 0
-##  2 1.50e9 2016-04-13        10735          6.97            6.97                0
-##  3 1.50e9 2016-04-14        10460          6.74            6.74                0
-##  4 1.50e9 2016-04-15         9762          6.28            6.28                0
-##  5 1.50e9 2016-04-16        12669          8.16            8.16                0
-##  6 1.50e9 2016-04-17         9705          6.48            6.48                0
-##  7 1.50e9 2016-04-18        13019          8.59            8.59                0
-##  8 1.50e9 2016-04-19        15506          9.88            9.88                0
-##  9 1.50e9 2016-04-20        10544          6.68            6.68                0
-## 10 1.50e9 2016-04-21         9819          6.34            6.34                0
-## # ... with 930 more rows, and 9 more variables: VeryActiveDistance &lt;dbl&gt;,
-## #   ModeratelyActiveDistance &lt;dbl&gt;, LightActiveDistance &lt;dbl&gt;,
-## #   SedentaryActiveDistance &lt;dbl&gt;, VeryActiveMinutes &lt;int&gt;,
-## #   FairlyActiveMinutes &lt;int&gt;, LightlyActiveMinutes &lt;int&gt;,
-## #   SedentaryMinutes &lt;int&gt;, Calories &lt;int&gt;</code></pre>
 <pre class="r"><code>tbl_sleep &lt;- as_tibble(sleepday)
+tbl_sleep$SleepDay&lt;-gsub(&quot; AM&quot;,&quot;&quot;,as.character(tbl_sleep$SleepDay))
+tbl_sleep$SleepDay &lt;- mdy_hms(tbl_sleep$SleepDay)
+tblsleep &lt;- distinct(tbl_sleep)
 tbl_sleep</code></pre>
 <pre><code>## # A tibble: 413 x 5
-##            Id SleepDay          TotalSleepRecor~ TotalMinutesAsl~ TotalTimeInBed
-##         &lt;dbl&gt; &lt;chr&gt;                        &lt;int&gt;            &lt;int&gt;          &lt;int&gt;
-##  1 1503960366 4/12/2016 12:00:~                1              327            346
-##  2 1503960366 4/13/2016 12:00:~                2              384            407
-##  3 1503960366 4/15/2016 12:00:~                1              412            442
-##  4 1503960366 4/16/2016 12:00:~                2              340            367
-##  5 1503960366 4/17/2016 12:00:~                1              700            712
-##  6 1503960366 4/19/2016 12:00:~                1              304            320
-##  7 1503960366 4/20/2016 12:00:~                1              360            377
-##  8 1503960366 4/21/2016 12:00:~                1              325            364
-##  9 1503960366 4/23/2016 12:00:~                1              361            384
-## 10 1503960366 4/24/2016 12:00:~                1              430            449
+##          Id SleepDay            TotalSleepRecor~ TotalMinutesAsl~ TotalTimeInBed
+##       &lt;dbl&gt; &lt;dttm&gt;                         &lt;int&gt;            &lt;int&gt;          &lt;int&gt;
+##  1   1.50e9 2016-04-12 12:00:00                1              327            346
+##  2   1.50e9 2016-04-13 12:00:00                2              384            407
+##  3   1.50e9 2016-04-15 12:00:00                1              412            442
+##  4   1.50e9 2016-04-16 12:00:00                2              340            367
+##  5   1.50e9 2016-04-17 12:00:00                1              700            712
+##  6   1.50e9 2016-04-19 12:00:00                1              304            320
+##  7   1.50e9 2016-04-20 12:00:00                1              360            377
+##  8   1.50e9 2016-04-21 12:00:00                1              325            364
+##  9   1.50e9 2016-04-23 12:00:00                1              361            384
+## 10   1.50e9 2016-04-24 12:00:00                1              430            449
 ## # ... with 403 more rows</code></pre>
 </div>
 </div>

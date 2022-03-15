@@ -67,6 +67,7 @@ tbl_day_act <- as_tibble(daily_activity)
 tbl_day_act
 ```
 
+#### Data Cleaning & Filtering
 The format of column "ActivityDate" needs to be changed to a date format. Same with the sleep table
 ```{r}
 tbl_day_act$ActivityDate <- mdy(tbl_day_act$ActivityDate)
@@ -75,7 +76,9 @@ tbl_day_act$ActivityDate <- mdy(tbl_day_act$ActivityDate)
 
 ```{r}
 tbl_sleep <- as_tibble(sleepday)
-tbl_sleep$ActivityDate<-gsub(" AM","",as.character(tbl_sleep$ActivityDate))
-tbl_sleep$ActivityDate <- mdy:hms(tbl_sleep$ActivityDate)
+tbl_sleep$SleepDay<-gsub(" AM","",as.character(tbl_sleep$SleepDay))
+tbl_sleep$SleepDay <- mdy_hms(tbl_sleep$SleepDay)
+sum(duplicated(tbl_sleep), vars = TRUE)
+tbl_sleep
 ```
 
