@@ -2,7 +2,7 @@
 title: "GoogleCapstoneMarkdown"
 author: "Dillon O'Rourke"
 date: '2022-03-15'
-output: html_document
+output: pdf_document
 ---
 
 ***
@@ -26,7 +26,7 @@ An analysis of smart device usage could identify trends which could be investiga
 
 ### *Assumptions or theories*
 
-### *Prodcuts*
+### *Products*
 * **Bellabeat app:** The Bellabeat app provides users with health data related to their activity, sleep, stress,menstrual cycle, and mindfulness habits. This data can help users better understand their current habits and make healthy decisions. The Bellabeat app connects to their line of smart wellness products.
 * **Leaf:** Bellabeat’s classic wellness tracker can be worn as a bracelet, necklace, or clip. The Leaf tracker connects to the Bellabeat app to track activity, sleep, and stress.
 * **Time:** This wellness watch combines the timeless look of a classic timepiece with smart technology to track user activity, sleep, and stress. The Time watch connects to the Bellabeat app to provide you with insights into your daily wellness.
@@ -42,43 +42,181 @@ Personal fitness tracker data collected from 30 consenting fitbit users in 2016.
 * **Type:** Structured continuous & discrete mostly nominal quantitative data.
 * **Structure:** Time-series data for each individual user in several tables. Data ranges from daily to minute timestamps. Heartrate, calories, steps, sleep and weight information are provided by the data.
 
-The *dailyActivity* table will be analysed first as it will provide the most high level veiw look for trends in daily data and then hourly or minute data can be delved into to provide a higher resolution picture into a trend.
+The daily data will be analysed first as it will provide the most high level view look for trends in daily data and then hourly or minute data can be delved into to provide a higher resolution view of a trend.
 
-* The data runs from the 12<sup>th</sup> of March to the 12<sup>th</sup> of April 2016. Therefore there should be 32 days of data to work with.
-
-```{r, results='hide',fig.keep='all'}
+**Importing Packages**
+```{r, message=FALSE}
 library(lubridate)
 library(tidyverse)
 library(ggplot2)
+library(dplyr)
 ```
 
-
-Importing the data
-
+**Importing the data**
 ```{r}
 daily_activity <- read.csv('C:/Users/Dillon/Documents/Coding Learning/Google Data Analytics Course/Google Data Analytics Capstone Complete a Case Study/Data/Fitabase Data 3.12.16-4.11.16/dailyActivity_merged.csv')
 
 sleepday <- read.csv('C:/Users/Dillon/Documents/Coding Learning/Google Data Analytics Course/Google Data Analytics Capstone Complete a Case Study/Data/Fitabase Data 3.12.16-4.11.16/SleepDay_merged.csv')
 ```
 
-Taking a look at the data;
+**Taking a look at the data;**
 ```{r}
 tbl_day_act <- as_tibble(daily_activity)
 tbl_day_act
 ```
-
-#### Data Cleaning & Filtering
-The format of column "ActivityDate" needs to be changed to a date format. Same with the sleep table
-```{r}
-tbl_day_act$ActivityDate <- mdy(tbl_day_act$ActivityDate)
-```
-
-
 ```{r}
 tbl_sleep <- as_tibble(sleepday)
-tbl_sleep$SleepDay<-gsub(" AM","",as.character(tbl_sleep$SleepDay))
-tbl_sleep$SleepDay <- mdy_hms(tbl_sleep$SleepDay)
-sum(duplicated(tbl_sleep), vars = TRUE)
 tbl_sleep
 ```
 
+***
+
+# Data Cleaning & Filtering
+
+**Renaming column names for readability.**
+```{r}
+tbl_day_act <- rename(tbl_day_act, ID = Id, Date = ActivityDate)
+tbl_sleep <- rename(tbl_sleep, ID = Id, Datetime = SleepDay)
+```
+
+**Change Date & ID format**
+The format of column "ActivityDate" needs to be changed to a date format. Same with the sleep table
+```{r}
+tbl_day_act$Date <- mdy(tbl_day_act$Date)
+tbl_day_act$ID <- as.character(tbl_day_act$ID)
+
+tbl_sleep$Datetime<-gsub(" AM","",as.character(tbl_sleep$Datetime))
+tbl_sleep$Datetime <- mdy_hms(tbl_sleep$Datetime)
+tbl_sleep$ID <- as.character(tbl_sleep$ID)
+```
+
+**Check for duplicates**
+A return of 1 from the sum value after removal means there are none left not that there is 1. In the case of the sleep table, there are 4 rows that are duplicates, removing 3 leaves one 1.
+```{r}
+sum(duplicated(tbl_day_act), vars = TRUE)
+tbl_day_act <- tbl_day_act[!duplicated(tbl_day_act), ]
+
+sum(duplicated(tbl_sleep), vars = TRUE)
+tbl_sleep <- tbl_sleep[!duplicated(tbl_sleep), ]
+sum(duplicated(tbl_sleep), vars = TRUE)
+```
+
+***
+
+# Exploratory Analysis
+
+**Calculating the number of unique (distinct) user IDs in both tables.**
+The data source stated that 30 users supplied Fitbit tracker data. Therefore, Expectation = maximum value of 30
+```{r distinct users}
+n_distinct(tbl_day_act$ID)
+n_distinct(tbl_sleep$ID)
+```
+There are 33 user IDs in this table. 
+*Cross-checking in excel:* using Data -> Remove Duplicates gave 33 for dailyActivity_merged.csv and 24 for the sleepDay_merged.csv table.
+The value of 33 could be users with multiple accounts, a second account created by a user during the timeframe that data was collected etc. 
+
+**Calculating the number of unique dates in the daily activity table**
+The data source stated that the data was collected between the 12th of April and the 12th of May. If the end date is included there should be 31 distinct dates. Creating a table of amount of days logged by each person(number of distinct dates for each ID)
+```{r distinct dates, warning=FALSE}
+n_distinct(tbl_day_act$Date)
+
+#number of distinct dates for each ID
+data_days <- as_tibble(count_(unique(tbl_day_act), vars = 'ID'))
+data_days
+```
+```{r}
+ggplot(data = data_days, aes(x = reorder(ID, n), y = n)) +
+  geom_bar(stat = 'identity', fill='blue4') +
+  theme(
+  axis.text.x = element_text(color = "navyblue", size = 12, angle = 0), 
+  axis.text.y = element_text(color = "navyblue", size = 12, angle = 0)) +
+  coord_flip()
+```
+
+**Summary statistics about each data frame**
+For the daily activity dataframe:
+```{r Summary Stats}
+data_days %>%
+  select(n)%>%
+  summary()
+
+tbl_day_act %>%  
+  select(TotalSteps,
+         TotalDistance,
+         SedentaryMinutes) %>%
+  summary()
+
+tbl_sleep %>%  
+  select(TotalSleepRecords,
+  TotalMinutesAsleep,
+  TotalTimeInBed) %>%
+  summary()
+```
+
+From the summaries we can see that this group of Fitbit users has averaged roughly 7500 steps per day.
+
+**Outer joining the sleep & daily activity tables**
+The tables could be inner joined but with an outer join, the option to filter out missing sleep data is there while still having access all of the data in the same dataframe.
+```{r Act & Sleep Table Join}
+tbl_sleep$Datetime <- date(tbl_sleep$Datetime)
+tbl_sleep <- rename(tbl_sleep, Date = Datetime)
+act_sleep <- as_tibble(merge(x=tbl_day_act, y=tbl_sleep, by= c('Date', 'ID'), all=TRUE))
+```
+
+**Investigating the effect of sleep on activity**
+1. Filter out N/As in the sleep data.
+2. Create a scatter plot of everyone's total time asleep vs total distance.
+3. Fit a line and correlate both variables.
+4. What type of exercise does sleep correlate best to?
+
+```{r Sleep vs Total Dist Plot Split ID, warning=FALSE}
+ggplot(data = act_sleep, aes(x = TotalMinutesAsleep, y = TotalDistance, color = ID)) +
+  geom_point()
+```
+
+```{r Sleep vs Total Dist Smooth Plot, warning=FALSE}
+ggplot(data = act_sleep) +
+  geom_smooth(mapping = aes(x = TotalMinutesAsleep, y = TotalDistance)) +
+  geom_point(mapping = aes(x = TotalMinutesAsleep, y = TotalDistance))
+```
+
+There is an indication of a negative correlation. More sleep equals less distance traveled.
+
+***
+# Problems
+* The Fitbit data used was collected from only 30 users. This is a very small sample size when considering that there are around 30 million users. Our sample size therefore represents roughly 1 millionth or 0.0001% of the population.
+* In addition to the above, the data was collected in 2016 so it is outdated. Were this study carried out a year ago during a pandemic and lockdowns, the data might even be misleading as people's exercise and eating habits are likely not the same during a pandemic.
+
+* During the exploration of the dailyactivity table, 33 unique IDs were found. This is unexpected because it was stated that Fitbit data was collected from 30 users and yet there are 33 unique user IDs in the daily activity table.
+
+***
+```{r}
+ggplot(data = tbl_day_act, aes(x = Date, y = Calories)) + 
+  geom_bar(stat = 'identity', fill='blue4') +
+  facet_wrap(~ID)
+```
+
+***
+# Findings
+1. The average daily steps in this sample group was roughly 7,500. 
+2. There is a negative correlation between total daily distance and time spent asleep.
+
+***
+# Discussion
+1. **Daily Step Average**
+The average daily step count for our sample was rouhgly 7,500. This is below the recommended CDC goal for a daily average of 10,000 steps/day according to [this](https://www.cdc.gov/diabetes/prevention/pdf/postcurriculum_session8.pdf) document. This means our users are below the recommended daily count of 10,000 by 2,500 steps. However they exceed the US average of 3,000 - 4,000 by 3,500 - 4,500 steps.
+
+2. **Time asleep vs total distance**
+```{r Sleep vs Total Dist Smooth Plot2, warning=FALSE}
+ggplot(data = act_sleep) +
+  geom_smooth(mapping = aes(x = TotalMinutesAsleep, y = TotalDistance)) +
+  geom_point(mapping = aes(x = TotalMinutesAsleep, y = TotalDistance))
+```
+
+There seems to be no positive correlation here, in fact there is an indication of a negative correlation. Which sounds counter intuitive because one might expect that more well rested person would be less sedentary. But when given further thought, it seems sensible. The simple fact that the more time spent asleep means less time spent moving and since total distance simply tracks movement and not exercise, means more sleep equals less distance traveled.
+
+***
+# Recommendations
+1. **Positive reinforcement and encouragement prompt;**
+    * Implement a prompt in the app that uses positive reinforcement to increase a users step count by comparing their step count to the        national average. (The cdc document on physical activity linked in the discussion section can be used for America). e.g. User 'X'         had a daily step count of 8,000. The app would would use a notification or in app message to congratulate a user that it surpassed        the avg Americans step count by 4,000 steps today.
+    * Using user 'X' as our example again, the notification could also advise the user that the CDC recommends setting a goal of 10,000         steps per day and that they "only have 2,000" to go.
