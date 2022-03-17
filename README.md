@@ -46,7 +46,7 @@ There is a general upward trend in sleep required for more intense exercise. **T
     * Using user 'X' as our example again, the notification could also advise the user that the CDC recommends setting a goal of 10,000 steps per day and that they "only have 2,000" to go.
     
 2. **Optimal Sleep Recommendation** 
-* Provide users with avg sleep times outside of the 6.7-8.3hr range with our findings that the optimal time to be asleep is between 6.7-8.3 hours if they would like to get more exercise during the day.
+	* Provide users with avg sleep times outside of the 6.7-8.3hr range with our findings that the optimal time to be asleep is between 6.7-8.3 hours if they would like to get more exercise during the day.
 
 ## Repository Breakdown
 * A full detailed report of the project was kept using jupyter notebook. A PDF, HTML and raw notebook file can be found in the main folder.
