@@ -50,6 +50,7 @@ library(lubridate)
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
+library(ggpubr)
 ```
 
 **Importing the data**
@@ -103,7 +104,7 @@ sum(duplicated(tbl_sleep), vars = TRUE)
 
 ***
 
-# Exploratory Analysis
+# Exploratory Analysis & Discussion
 
 **Calculating the number of unique (distinct) user IDs in both tables.**
 The data source stated that 30 users supplied Fitbit tracker data. Therefore, Expectation = maximum value of 30
@@ -126,7 +127,7 @@ data_days
 ```
 ```{r}
 ggplot(data = data_days, aes(x = reorder(ID, n), y = n)) +
-  geom_bar(stat = 'identity', fill='blue4') +
+  geom_bar(stat = 'identity', fill='blue4', alpha = 0.5) +
   theme(
   axis.text.x = element_text(color = "navyblue", size = 12, angle = 0), 
   axis.text.y = element_text(color = "navyblue", size = 12, angle = 0)) +
@@ -155,7 +156,15 @@ tbl_sleep %>%
 
 From the summaries we can see that this group of Fitbit users has averaged roughly 7500 steps per day.
 
+**Calorie Expenditure of each User per day**
+```{r Calorie Expenditure}
+ggplot(data = tbl_day_act, aes(x = Date, y = Calories, alpha = 0.75)) + 
+  geom_bar(stat = 'identity', fill='blue4') +
+  facet_wrap(~ID)
+```
+
 **Outer joining the sleep & daily activity tables**
+
 The tables could be inner joined but with an outer join, the option to filter out missing sleep data is there while still having access all of the data in the same dataframe.
 ```{r Act & Sleep Table Join}
 tbl_sleep$Datetime <- date(tbl_sleep$Datetime)
@@ -163,24 +172,83 @@ tbl_sleep <- rename(tbl_sleep, Date = Datetime)
 act_sleep <- as_tibble(merge(x=tbl_day_act, y=tbl_sleep, by= c('Date', 'ID'), all=TRUE))
 ```
 
-**Investigating the effect of sleep on activity**
+### **Investigating the effect of sleep on activity**
+
 1. Filter out N/As in the sleep data.
 2. Create a scatter plot of everyone's total time asleep vs total distance.
 3. Fit a line and correlate both variables.
 4. What type of exercise does sleep correlate best to?
 
-```{r Sleep vs Total Dist Plot Split ID, warning=FALSE}
-ggplot(data = act_sleep, aes(x = TotalMinutesAsleep, y = TotalDistance, color = ID)) +
-  geom_point()
+**Scatter plots w/line of best fit**
+
+```{r Sleep vs Activity types, warning=FALSE}
+ggscatter(act_sleep, x = "TotalMinutesAsleep", y = "TotalDistance", 
+          color = 'black', shape = 21, size = 2,
+          add = "reg.line", conf.int = TRUE, 
+          add.params = list(color = 'red', fill = 'lightgrey'),
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Time Asleep (min)", ylab = "Total Activity Distance", ggtheme = theme_classic())
+
+ggscatter(act_sleep, x = "TotalMinutesAsleep", y = "LightActiveDistance", 
+          color = 'black', shape = 21, size = 2,
+          add = "reg.line", conf.int = TRUE, 
+          add.params = list(color = 'red', fill = 'lightgrey'),
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Time Asleep (min)", ylab = "Light Activity Distance", ggtheme = theme_classic())
+
+ggscatter(act_sleep, x = "TotalMinutesAsleep", y = "ModeratelyActiveDistance", 
+          color = 'black', shape = 21, size = 2,
+          add = "reg.line", conf.int = TRUE, 
+          add.params = list(color = 'red', fill = 'lightgrey'),
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Time Asleep (min)", ylab = "Moderate Activity Distance", ggtheme = theme_classic())
+
+ggscatter(act_sleep, x = "TotalMinutesAsleep", y = "VeryActiveDistance", 
+          color = 'black', shape = 21, size = 2,
+          add = "reg.line", conf.int = TRUE, 
+          add.params = list(color = 'red', fill = 'lightgrey'),
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Time Asleep (min)", ylab = "Very Activity Distance", ggtheme = theme_classic())
 ```
 
-```{r Sleep vs Total Dist Smooth Plot, warning=FALSE}
-ggplot(data = act_sleep) +
-  geom_smooth(mapping = aes(x = TotalMinutesAsleep, y = TotalDistance)) +
-  geom_point(mapping = aes(x = TotalMinutesAsleep, y = TotalDistance))
+All of the above are negatively correlated when using a line of best fit and the r value. This suggests that either less sleep is better for exercising more or that there is no relationship between the two. 
+
+**2D heat maps**
+
+```{r Sleep vs Distances Density Plots, warning=FALSE}
+ggplot(act_sleep, aes(TotalMinutesAsleep, round(TotalDistance, digits = 0))) +
+  geom_density_2d_filled(show.legend = FALSE, alpha = 0.5) +
+  coord_cartesian(expand = FALSE) +
+  ylim(0, 14) +
+  labs(title = 'Sleep vs Total Daily Distance', x = "Time Asleep (min)", 
+  y = "Total Daily Distance") +
+  scale_x_continuous(breaks=seq(0, 800, 50))
+
+ggplot(act_sleep, aes(TotalMinutesAsleep, round(LightActiveDistance, digits = 0))) +
+  geom_density_2d_filled(show.legend = FALSE, alpha = 0.5) +
+  coord_cartesian(expand = FALSE) +
+  ylim(0, 9) +
+  labs(title = 'Sleep vs Light Activity Distance', x = "Time Asleep (min)", 
+  y = "Light Activity Distance") +
+  scale_x_continuous(breaks=seq(0, 800, 50))
+
+ggplot(act_sleep, aes(TotalMinutesAsleep, round(ModeratelyActiveDistance, digits = 0))) +
+  geom_density_2d_filled(show.legend = FALSE, alpha = 0.5) +
+  coord_cartesian(expand = FALSE) +
+    ylim(0, 3) +
+  labs(title = 'Sleep vs Moderate Activity Distance', 
+  x = "Time Asleep (min)", y = "Moderate Activity Distance") +
+  scale_x_continuous(breaks=seq(0, 800, 50))
+
+ggplot(act_sleep, aes(TotalMinutesAsleep, round(VeryActiveDistance, digits = 0))) +
+  geom_density_2d_filled(show.legend = FALSE, alpha = 0.5) +
+  coord_cartesian(expand = FALSE) +
+  ylim(0, 6) +
+  labs(title = 'Sleep vs Very Activity Distance', x = "Time Asleep (min)", 
+  y = "Very Activity Distance") +
+  scale_x_continuous(breaks=seq(0, 800, 50))
 ```
 
-There is an indication of a negative correlation. More sleep equals less distance traveled.
 
 ***
 # Problems
@@ -189,34 +257,37 @@ There is an indication of a negative correlation. More sleep equals less distanc
 
 * During the exploration of the dailyactivity table, 33 unique IDs were found. This is unexpected because it was stated that Fitbit data was collected from 30 users and yet there are 33 unique user IDs in the daily activity table.
 
-***
-```{r}
-ggplot(data = tbl_day_act, aes(x = Date, y = Calories)) + 
-  geom_bar(stat = 'identity', fill='blue4') +
-  facet_wrap(~ID)
-```
-
-***
-# Findings
-1. The average daily steps in this sample group was roughly 7,500. 
-2. There is a negative correlation between total daily distance and time spent asleep.
 
 ***
 # Discussion
 1. **Daily Step Average**
-The average daily step count for our sample was rouhgly 7,500. This is below the recommended CDC goal for a daily average of 10,000 steps/day according to [this](https://www.cdc.gov/diabetes/prevention/pdf/postcurriculum_session8.pdf) document. This means our users are below the recommended daily count of 10,000 by 2,500 steps. However they exceed the US average of 3,000 - 4,000 by 3,500 - 4,500 steps.
+The average daily step count for our sample was roughly 7,500. This is below the recommended CDC goal for a daily average of 10,000 steps/day according to [this](https://www.cdc.gov/diabetes/prevention/pdf/postcurriculum_session8.pdf) document. This means our users are below the recommended daily count of 10,000 by 2,500 steps. However they exceed the US average of 3,000 - 4,000 by 3,500 - 4,500 steps.
 
-2. **Time asleep vs total distance**
-```{r Sleep vs Total Dist Smooth Plot2, warning=FALSE}
-ggplot(data = act_sleep) +
-  geom_smooth(mapping = aes(x = TotalMinutesAsleep, y = TotalDistance)) +
-  geom_point(mapping = aes(x = TotalMinutesAsleep, y = TotalDistance))
-```
+2. **Time asleep vs activity**
 
-There seems to be no positive correlation here, in fact there is an indication of a negative correlation. Which sounds counter intuitive because one might expect that more well rested person would be less sedentary. But when given further thought, it seems sensible. The simple fact that the more time spent asleep means less time spent moving and since total distance simply tracks movement and not exercise, means more sleep equals less distance traveled.
+There seems to be no positive correlation between sleep and activity or exercise, in fact there is an indication of a negative correlation. Which sounds counter intuitive.
+
+All of the the scatter plots of sleep vs activity in the Exploratory Analysis section are negatively correlated when using a line of best fit and the r value. This suggests that either less sleep is better for exercising more or that there is no relationship between the two. The former is obviously wrong and the latter is most likely wrong too. Therefore this is not the appropriate way to interpret the data.
+
+Looking at the scatter plots and where the points tend to accumulate, there seems to be a cluster of data points around the 420-450 minute mark. This suggests that there is not necessarily a linear relationship but rather an optimal x value to predict y values. This was graphically represented by a 2-D density heat map. From these density plots, the optimal sleep time for each activity type can be inferred
+
+***
+# Findings
+1. **The average daily steps in this sample group was roughly 7,500**, this is 3,500-4,500 higher than the average American's but 2,500 lower than the CDCs recommended daily amount . 
+2. Optimal amount of time sleeping for each acitivty type is as follows;
+    + Light: Roughly 430 minutes or 7.2hrs
+    + Moderate: Roughly 460 minutes or 7.7hrs
+    + High: 450-500 mminutes or 7.5-8.3hrs
+    + All of the above: Roughly 450 minutes or 7.5hrs
+    
+There is a general upward trend in sleep required for more intense exercise.
+**The optimal sleep time is between 400-500mins or 6.7-8.3hrs**
 
 ***
 # Recommendations
 1. **Positive reinforcement and encouragement prompt;**
-    * Implement a prompt in the app that uses positive reinforcement to increase a users step count by comparing their step count to the        national average. (The cdc document on physical activity linked in the discussion section can be used for America). e.g. User 'X'         had a daily step count of 8,000. The app would would use a notification or in app message to congratulate a user that it surpassed        the avg Americans step count by 4,000 steps today.
-    * Using user 'X' as our example again, the notification could also advise the user that the CDC recommends setting a goal of 10,000         steps per day and that they "only have 2,000" to go.
+    * Implement a prompt in the app that uses positive reinforcement to increase a users step count by comparing their step count to the national average. (The cdc document on physical activity linked in the discussion section can be used for America). e.g. User 'X' had a daily step count of 8,000. The app would would use a notification or in app message to congratulate a user that it surpassed the avg Americans step count by 4,000 steps today.
+    * Using user 'X' as our example again, the notification could also advise the user that the CDC recommends setting a goal of 10,000 steps per day and that they "only have 2,000" to go.
+    
+2. **Optimal Sleep Recommendation** 
+* Provide users with avg sleep times outside of the 6.7-8.3hr range with our findings that the optimal time to be asleep is between 6.7-8.3 hours if they would like to get more exercise during the day.

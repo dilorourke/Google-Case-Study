@@ -27,7 +27,26 @@ An analysis of smart device usage could identify trends which could be investiga
 
 ## Analtical Method
 1. The data was downloaded and orgranised into a folder for storage.
-2. The data was loaded into python and checked for problems.
+2. The data was loaded into R, cleaned and summarised.
+3. The stats of each user and of the group were investigated.
+4. The effect of sleep on exercise was investigated.
+
+## Findings
+1. **The average daily steps in this sample group was roughly 7,500**, this is 3,500-4,500 higher than the average American’s but 2,500 lower than the CDCs recommended daily amount .
+2. **Optimal Sleep Time**; Optimal amount of time sleeping for each acitivty type is as follows;
+	+ Light: Roughly 430 minutes or 7.2hrs
+	+ Moderate: Roughly 460 minutes or 7.7hrs
+	+ High: 450-500 mminutes or 7.5-8.3hrs
+	+ All of the above: Roughly 450 minutes or 7.5hrs
+There is a general upward trend in sleep required for more intense exercise. **The optimal sleep time is between 400-500mins or 6.7-8.3hrs**
+
+## Recommendations
+1. **Positive reinforcement and encouragement prompt;**
+    * Implement a prompt in the app that uses positive reinforcement to increase a users step count by comparing their step count to the national average. (The cdc document on physical activity linked in the discussion section can be used for America). e.g. User 'X' had a daily step count of 8,000. The app would would use a notification or in app message to congratulate a user that it surpassed the avg Americans step count by 4,000 steps today.
+    * Using user 'X' as our example again, the notification could also advise the user that the CDC recommends setting a goal of 10,000 steps per day and that they "only have 2,000" to go.
+    
+2. **Optimal Sleep Recommendation** 
+* Provide users with avg sleep times outside of the 6.7-8.3hr range with our findings that the optimal time to be asleep is between 6.7-8.3 hours if they would like to get more exercise during the day.
 
 ## Repository Breakdown
 * A full detailed report of the project was kept using jupyter notebook. A PDF, HTML and raw notebook file can be found in the main folder.
